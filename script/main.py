@@ -1,6 +1,5 @@
-from funciones import cargar_csv
+from funciones import cargar_csv, mostrar_paises
 
 paises = cargar_csv()
-print(f"Cantidad de países: {len(paises)}")
-for pais in paises:
-    print(pais)
+
+mostrar_paises(paises)
