@@ -42,6 +42,7 @@ def mostrar_paises(paises):
         print(f"{pais['nombre']:<20}{poblacion:<20}{superficie:<25}{pais['continente']:<20}")
     print("-" * ANCHO)
     print(f"Total de países: {len(paises)}")
+    print()
 
 # Muestra el menú principal
 def mostrar_menu():
@@ -55,3 +56,16 @@ def mostrar_menu():
     print("7. Ordenar países")
     print("8. Estadísticas")
     print("9. Salir")
+
+# Solicita una opción válida del menú
+def pedir_opcion():
+    while True:
+        try:
+            opcion = int(input("\nSeleccione una opción: ").strip())
+            if 1 <= opcion <= 9:
+                return opcion
+            else:
+                print("Error: Debe ingresar una opción entre 1 y 9.")
+        except ValueError:
+            print("Error: debe ingresar un número")
+
