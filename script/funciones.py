@@ -42,3 +42,16 @@ def mostrar_paises(paises):
         print(f"{pais['nombre']:<20}{poblacion:<20}{superficie:<25}{pais['continente']:<20}")
     print("-" * ANCHO)
     print(f"Total de países: {len(paises)}")
+
+# Muestra el menú principal
+def mostrar_menu():
+    mostrar_titulo("GESTIÓN DE PAÍSES")
+    print("1. Mostrar países")
+    print("2. Agregar país")
+    print("3. Modificar país")
+    print("4. Eliminar país")
+    print("5. Buscar país")
+    print("6. Filtrar países")
+    print("7. Ordenar países")
+    print("8. Estadísticas")
+    print("9. Salir")
