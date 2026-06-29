@@ -156,17 +156,100 @@ def agregar_pais(paises):
     paises.append(nuevo_pais)
     print(f"\n¡El país {nombre} se ha cargado correctamente!")
     print()
-    
-# 5: busca un país por su nombre y muestra su información
-def buscar_pais(paises):
-    mostrar_titulo("BUSCAR PAÍS")
-    nombre = input("Ingrese el nombre del país: ").strip().title()
+
+# 3: modifica los datos de un país
+def modificar_pais(paises):
+    mostrar_titulo("MODIFICAR PAÍS")
+    nombre = input("Ingrese el país a modificar: ").strip().title()
     indice = buscar_indice_pais(paises, nombre)
     # Controla país no existente en la lista
     if indice == -1:
         print("\nERROR: El país no existe.")
         return
-    mostrar_paises([paises[indice]])
+    print("\nIngrese los nuevos datos.\n")
+    # Cambiar población
+    while True:
+        try:
+            poblacion = int(input("Población: ").strip())
+            # Controla la carga de números <= 0
+            if poblacion <= 0:
+                print("Error: la población debe ser mayor a 0.")
+                continue
+            break
+        except ValueError:
+            print("Error: debe ingresar un número entero.")
+    # Cambiar superficie
+    while True:
+        try:
+            superficie = int(input("Superficie: ").strip())
+            # Controla la carga de números <= 0
+            if superficie <= 0:
+                print("Error: la superficie debe ser mayor a 0.")
+                continue
+            break
+        except ValueError:
+            print("Error: debe ingresar un número entero.")
+    # Cambiar continente
+    while True:
+        print("\nContinente:")
+        print("1. América")
+        print("2. Europa")
+        print("3. Asia")
+        print("4. África")
+        print("5. Oceanía")
+        try:
+            opcion = opcion = int(input("\nSeleccione un continente: ").strip())
+            if opcion == 1:
+                continente = "América"
+                break
+            elif opcion == 2:
+                continente = "Europa"
+                break
+            elif opcion == 3:
+                continente = "Asia"
+                break
+            elif opcion == 4:
+                continente = "África"
+                break
+            elif opcion == 5:
+                continente = "Oceanía"
+                break
+            else:
+                print("ERROR: Debe seleccionar una opción entre 1 y 5.")
+        except ValueError:
+            print("Error: debe ingresar un número.")
+    # Carga de cambio
+    paises[indice]["población"] = poblacion
+    paises[indice]["superficie"] = superficie
+    paises[indice]["continente"] = continente
+    print(f"\n¡El país {nombre} se modificado correctamente!")
+
+# 4: elimina un país
+def eliminar_pais(paises):
+    mostrar_titulo("ELIMINAR PAÍS")
+    nombre = input("Ingrese el país a eliminar: ").strip().title()
+    indice = buscar_indice_pais(paises, nombre)
+    # Controla país no existente en la lista
+    if indice == -1:
+        print("\nERROR: El país no existe.")
+        return
+    del paises[indice]
+    print(f"\n¡El país {nombre} se ha eliminado correctamente!")
+
+# 5: busca un país por su nombre y muestra su información
+def buscar_pais(paises):
+    mostrar_titulo("BUSCAR PAÍS")
+    nombre = input("Ingrese el nombre del país: ").strip().title()
+    resultados = []
+    # Busca coincidenacias completas o parciales
+    for pais in paises:
+        if nombre.lower() in pais["nombre"].lower():
+            resultados.append(pais)
+    # Controla país no existente en la lista
+    if not resultados:
+        print("\nERROR: no se encontraron coincidencias con países existes en la lista.")
+        return
+    mostrar_paises(resultados)
 
 # 9: guarda la lista de países en el archivo
 def guardar_csv(paises):

@@ -1,4 +1,4 @@
-from funciones import cargar_csv, mostrar_menu, pedir_opcion, mostrar_paises, agregar_pais, guardar_csv, buscar_indice_pais, buscar_pais
+from funciones import cargar_csv, mostrar_menu, pedir_opcion, mostrar_paises, agregar_pais, guardar_csv, buscar_indice_pais, buscar_pais, modificar_pais, eliminar_pais
 
 # Función principal
 def main():
@@ -14,6 +14,10 @@ def main():
             mostrar_paises(paises)
         elif opcion == 2:
             agregar_pais(paises)
+        elif opcion == 3:
+            modificar_pais(paises)
+        elif opcion == 4:
+            eliminar_pais(paises)
         elif opcion == 5:
             buscar_pais(paises)
         elif opcion == 9:
