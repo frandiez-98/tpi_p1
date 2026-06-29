@@ -251,6 +251,41 @@ def buscar_pais(paises):
         return
     mostrar_paises(resultados)
 
+# 8: muestra estadísticas generales de los países
+def mostrar_estadisticas(paises):
+    mostrar_titulo("ESTADÍSTICAS")
+    # Mayor poblacíon
+    mayor = max(paises, key=lambda pais: pais["población"])
+    print(f"País con mayor población: {mayor['nombre']}")
+    print(f"Población: {mayor['población']:,}".replace(",", "."))
+    print()
+    # Menor población
+    menor = min(paises, key=lambda pais: pais["población"])
+    print(f"País con menor población: {menor['nombre']}")
+    print(f"Población: {menor['población']:,}".replace(",", "."))
+    print()
+    # Calcula el promedio de población
+    total_poblacion = sum(pais["población"] for pais in paises)
+    promedio_poblacion = total_poblacion / len(paises)
+    print(f"Promedio de población: {promedio_poblacion:,.0f}".replace(",", "."))
+    print()
+    # Calcula el promedio de superficie
+    total_superficie = sum(pais["superficie"] for pais in paises)
+    promedio_superficie = total_superficie / len(paises)
+    print(f"Promedio de superficie: {promedio_superficie:,.0f} km²".replace(",", "."))
+    print()
+    # Cuenta la cantidad de países por continente
+    continentes = {}
+    for pais in paises:
+        continente = pais["continente"]
+        if continente in continentes:
+            continentes[continente] += 1
+        else:
+            continentes[continente] = 1
+    print("Cantidad de países por continente:")
+    for continente, cantidad in continentes.items():
+        print(f"{continente}: {cantidad}")
+
 # 9: guarda la lista de países en el archivo
 def guardar_csv(paises):
     with open(RUTA_CSV, "w", encoding = "utf-8", newline = "") as archivo: # Se usa w porque lo utilizo al salir del programa
