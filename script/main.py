@@ -1,4 +1,4 @@
-from funciones import cargar_csv, mostrar_menu, pedir_opcion, mostrar_paises
+from funciones import cargar_csv, mostrar_menu, pedir_opcion, mostrar_paises, agregar_pais, guardar_csv, buscar_indice_pais, buscar_pais
 
 # Función principal
 def main():
@@ -12,7 +12,12 @@ def main():
         opcion = pedir_opcion()
         if opcion == 1:
             mostrar_paises(paises)
+        elif opcion == 2:
+            agregar_pais(paises)
+        elif opcion == 5:
+            buscar_pais(paises)
         elif opcion == 9:
+            guardar_csv(paises)
             print("\n¡Gracias por utilizar el sistema! Hasta luego")
             break
 
