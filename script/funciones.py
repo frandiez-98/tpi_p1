@@ -8,14 +8,17 @@ RUTA_CSV = Path(__file__).resolve().parent.parent / "data" /"paises.csv"
 # Lee el archivo y devuelve una lista de diccionarios
 def cargar_csv():
     paises = []
-    with open(RUTA_CSV, "r", encoding = "utf-8") as archivo:
-        lector = csv.DictReader(archivo)
-        for fila in lector:
-            pais = {"nombre": fila["nombre"],
-                    "población": int(fila["población"]),
-                    "superficie": int(fila["superficie"]),
-                    "continente": fila["continente"]}
-            paises.append(pais)
+    try:
+        with open(RUTA_CSV, "r", encoding = "utf-8") as archivo:
+            lector = csv.DictReader(archivo)
+            for fila in lector:
+                pais = {"nombre": fila["nombre"],
+                        "población": int(fila["población"]),
+                        "superficie": int(fila["superficie"]),
+                        "continente": fila["continente"]}
+                paises.append(pais)
+    except FileNotFoundError:
+        print("Error: no se encontró el archivo de países")
     return paises
 
 # Crea los títulos centrados entre líneas 
@@ -127,7 +130,7 @@ def agregar_pais(paises):
         print("4. África")
         print("5. Oceanía")
         try:
-            opcion = opcion = int(input("\nSeleccione un continente: ").strip())
+            opcion = int(input("\nSeleccione un continente: ").strip())
             if opcion == 1:
                 continente = "América"
                 break
@@ -144,7 +147,7 @@ def agregar_pais(paises):
                 continente = "Oceanía"
                 break
             else:
-                print("ERROR: Debe seleccionar una opción entre 1 y 5.")
+                print("Error: debe seleccionar una opción entre 1 y 5.")
         except ValueError:
             print("Error: debe ingresar un número.")
     # Crea un diccionario con los datos del nuevo país
@@ -164,7 +167,7 @@ def modificar_pais(paises):
     indice = buscar_indice_pais(paises, nombre)
     # Controla país no existente en la lista
     if indice == -1:
-        print("\nERROR: El país no existe.")
+        print("\nError: el país no existe.")
         return
     print("\nIngrese los nuevos datos.\n")
     # Cambiar población
@@ -198,7 +201,7 @@ def modificar_pais(paises):
         print("4. África")
         print("5. Oceanía")
         try:
-            opcion = opcion = int(input("\nSeleccione un continente: ").strip())
+            opcion = int(input("\nSeleccione un continente: ").strip())
             if opcion == 1:
                 continente = "América"
                 break
@@ -215,7 +218,7 @@ def modificar_pais(paises):
                 continente = "Oceanía"
                 break
             else:
-                print("ERROR: Debe seleccionar una opción entre 1 y 5.")
+                print("Error: debe seleccionar una opción entre 1 y 5.")
         except ValueError:
             print("Error: debe ingresar un número.")
     # Carga de cambio
@@ -231,7 +234,7 @@ def eliminar_pais(paises):
     indice = buscar_indice_pais(paises, nombre)
     # Controla país no existente en la lista
     if indice == -1:
-        print("\nERROR: El país no existe.")
+        print("\nError: el país no existe.")
         return
     del paises[indice]
     print(f"\n¡El país {nombre} se ha eliminado correctamente!")
@@ -247,9 +250,139 @@ def buscar_pais(paises):
             resultados.append(pais)
     # Controla país no existente en la lista
     if not resultados:
-        print("\nERROR: no se encontraron coincidencias con países existes en la lista.")
+        print("\nError: no se encontraron coincidencias.")
         return
     mostrar_paises(resultados)
+
+# 6: filtra países según el criterio seleccionado
+def filtrar_paises(paises):
+    mostrar_titulo("FILTRAR PAÍSES")
+    # Menú interno
+    print("1. Filtrar por continente")
+    print("2. Filtrar por rango de población")
+    print("3. Filtrar por rango de superficie")
+    print("4. Volver")
+    while True:
+        try:
+            opcion = int(input("\nSeleccione una opción: ").strip())
+            if opcion not in [1, 2, 3, 4]:
+                print("Error: debe ingresar una opción válida.")
+                continue
+            break
+        except ValueError:
+            print("Error: debe ingresar un número.")
+    # Filtro por continente
+    if opcion == 1:
+        print("\nContinentes disponibles:")
+        print("1. América")
+        print("2. Europa")
+        print("3. Asia")
+        print("4. África")
+        print("5. Oceanía")
+        while True:
+            try:
+                opcion_continente = int(input("\nSeleccione un continente: ").strip())
+                if opcion_continente == 1:
+                    continente = "América"
+                elif opcion_continente == 2:
+                    continente = "Europa"
+                elif opcion_continente == 3:
+                    continente = "Asia"
+                elif opcion_continente == 4:
+                    continente = "África"
+                elif opcion_continente == 5:
+                    continente = "Oceanía"
+                else:
+                    print("Error: debe ingresar una opción entre 1 y 5.")
+                    continue
+                break
+            except ValueError:
+                print("Error: debe ingresar un número entero.")
+        filtrados = []
+        for pais in paises:
+            if pais["continente"] == continente:
+                filtrados.append(pais)
+    # Filtro por población
+    elif opcion == 2:
+        while True:
+            try:
+                minimo = int(input("\nIngrese la población mínima: ").strip())
+                maximo = int(input("Ingrese la población máxima: ").strip())
+                # Controla coherencia en los rangos
+                if minimo > maximo:
+                    print("Error: la población mínima no puede ser mayor que la máxima.")
+                    continue
+                break
+            except ValueError:
+                print("Error: debe ingresar un número entero.")
+        filtrados = []
+        for pais in paises:
+            if minimo <= pais["población"] <= maximo:
+                filtrados.append(pais)
+    # Filtro por superficie
+    elif opcion == 3:
+        while True:
+            try:
+                minimo = int(input("\nIngrese la superficie mínima: ").strip())
+                maximo = int(input("Ingrese la superficie máxima: ").strip())
+                # Controla coherencia en los rangos
+                if minimo > maximo:
+                    print("Error: la superficie mínima no puede ser mayor que la máxima.")
+                    continue
+                break
+            except ValueError:
+                print("Error: debe ingresar un número entero.")
+        filtrados = []
+        for pais in paises:
+            if minimo <= pais["superficie"] <= maximo:
+                filtrados.append(pais)            
+    if opcion == 4:
+        return
+    if not filtrados:
+        print("\nError: no se encontraron países que cumplan el criterio.")
+        return
+    mostrar_paises(filtrados)
+
+# 7: ordena los países según el criterio seleccionado
+def ordenar_paises(paises):
+    mostrar_titulo("ORDENAR PAÍSES")
+    # Menú interno
+    print("1. Ordenar por nombre")
+    print("2. Ordenar por población")
+    print("3. Ordenar por superficie")
+    while True:
+        try:
+            opcion = int(input("\nSeleccione una opción: ").strip())
+            if opcion < 1 or opcion > 3:
+                print("Error: debe ingresar una opción entre 1 y 3.")
+                continue
+            break
+        except ValueError:
+            print("Error: debe ingresar un número.")
+    # Ordenar por nombre
+    if opcion == 1:
+        ordenados = sorted(paises, key=lambda pais: pais["nombre"])
+    # Ordenar por población
+    elif opcion == 2:
+        ordenados = sorted(paises, key=lambda pais: pais["población"])
+    # Ordenar por superficie
+    else:
+        while True:
+            print("\n1. Ascendente")
+            print("2. Descendente")
+            try:
+                orden = int(input("\nSeleccione el orden: ").strip())
+                if orden == 1:
+                    ordenados = sorted(paises, key=lambda pais: pais["superficie"])
+                    break
+                elif orden == 2:
+                    ordenados = sorted(paises, key=lambda pais: pais["superficie"], reverse=True)
+                    break
+                else:
+                    print("Error: debe ingresar 1 o 2.")
+            except ValueError:
+                print("Error: debe ingresar un número.")
+    mostrar_paises(ordenados)
 
 # 8: muestra estadísticas generales de los países
 def mostrar_estadisticas(paises):

@@ -1,4 +1,4 @@
-from funciones import cargar_csv, mostrar_menu, pedir_opcion, mostrar_paises, agregar_pais, guardar_csv, buscar_indice_pais, buscar_pais, modificar_pais, eliminar_pais, mostrar_estadisticas
+from funciones import cargar_csv, mostrar_menu, pedir_opcion, mostrar_paises, agregar_pais, guardar_csv, buscar_pais, modificar_pais, eliminar_pais, mostrar_estadisticas, ordenar_paises, filtrar_paises
 
 # Función principal
 def main():
@@ -20,11 +20,15 @@ def main():
             eliminar_pais(paises)
         elif opcion == 5:
             buscar_pais(paises)
+        elif opcion == 6:
+            filtrar_paises(paises)
+        elif opcion == 7:
+            ordenar_paises(paises)
         elif opcion == 8:
             mostrar_estadisticas(paises)
         elif opcion == 9:
             guardar_csv(paises)
-            print("\n¡Gracias por utilizar el sistema! Hasta luego")
+            print("\n¡Gracias por utilizar el sistema! Hasta luego.")
             break
 
 # Ejecuta el programa
