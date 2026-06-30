@@ -243,6 +243,7 @@ def eliminar_pais(paises):
 def buscar_pais(paises):
     mostrar_titulo("BUSCAR PAÍS")
     nombre = input("Ingrese el nombre del país: ").strip().title()
+    print()
     resultados = []
     # Busca coincidenacias completas o parciales
     for pais in paises:
@@ -368,6 +369,7 @@ def ordenar_paises(paises):
     # Ordenar por superficie
     else:
         while True:
+            # Menú interno
             print("\n1. Ascendente")
             print("2. Descendente")
             try:
